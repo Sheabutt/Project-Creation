@@ -67,10 +67,6 @@
             font-size: 20px;
             font-weight: 600;
         }
-        .cardPhoto{
-            width: 200px;
-            height: auto;
-        }
         .rightCard{
             background-color: white;
             width: 20%;
@@ -122,22 +118,22 @@
         </div>
     </header>
     <div class="card">
-        <img class="cardPhoto" src="photo.png">
+        <img class="w-[100px] h-auto md:w-[200px] md:h-[auto]" src="photo.png">
         <div class="leftCard">
-            <h2>Welcome to the ClassSync Dashboard – Your All-in-One Solution for Effortless Student Record Management! Easily add, view, edit, and organize student information with a seamless and user-friendly experience.</h2>
+            <h2 class="text-sm md:text-xl">Welcome to the ClassSync Dashboard – Your All-in-One Solution for Effortless Student Record Management! Easily add, view, edit, and organize student information with a seamless and user-friendly experience.</h2>
         </div>
         <div class="rightCard p-3">
             <h3 class="bg-orange-200 text-orange-500 w-[60px] px-3 rounded-full text-sm">2025</h3>
-            <h2 class="font-bold mt-3">Total Students</h2>
-            <h4 class="text-gray-500 text-[10px]">This is the number of students for this year.</h4>
+            <h2 class="font-bold mt-3 text-[10px] md:text-lg">Total Students</h2>
+            <h4 class="text-gray-500 text-[7px] md:text-[10px]">This is the number of students for this year.</h4>
             <div class="box">
-                <h3 class="text-[30px] rounded" id="numberofstudents"></h3>
+                <h3 class="text-[15px] md:text-[30px] rounded" id="numberofstudents"></h3>
             </div>
         </div>
     </div>
-    <div class="flex">
+    <div class="flex flex-col md:flex-row">
    
-    <div class="max-w-4xl w-[30%] max-h-[260px] mt-8 m-10 mx-auto bg-white p-6 shadow-lg rounded-lg hidden" id="content">
+    <div class="max-w-4xl md:w-[30%] max-h-[260px] mt-8 m-10 mx-auto bg-white p-6 shadow-lg rounded-lg hidden" id="content">
         <h2 class="text-xl font-semibold mb-4 text-gray-700">Add New Student</h2>
         <form id="studentForm" class="grid grid-cols-2 gap-4">
             <input type="number" id="id" placeholder="Student ID" required class="w-full p-3 border rounded shadow-sm" required>
@@ -148,7 +144,7 @@
         </form>
     </div>
     
-    <div class="max-w-4xl h-[400px] w-[46%] ml-[-100px] m-10 mx-auto mt-8 bg-white px-6 shadow-lg rounded-lg hidden max-h-[400px] overflow-y-auto overflow-x-hidden" id="tableSection">
+    <div class="max-w-4xl w-[85%] h-[400px] md:w-[46%] md:ml-[-100px] m-10 mx-auto mt-8 bg-white px-6 shadow-lg rounded-lg hidden max-h-[400px] overflow-y-auto overflow-x-hidden" id="tableSection">
         <div class="search flex items-center justify-between mt-8 mb-5">
             <h2 class="text-xl font-semibold text-gray-700">Student Records</h2>
             <input type="text" id="searchInput" placeholder="Search students..." class="border p-2 rounded-lg text-gray-700 w-64">

@@ -43,10 +43,10 @@ document.addEventListener("DOMContentLoaded", () => {
                     <td class='p-3'>${student.contact}</td>
                     <td class='p-3'>${student.course}</td>
                     <td class='p-3 space-x-2'>
-                       <button class='bg-teal-500 hover:bg-teal-600 text-white px-3 py-1 rounded edit-btn' data-index="${index}">
+                       <button class='bg-teal-500 hover:bg-teal-600 text-white px-3 py-1 text-[10px] rounded edit-btn' data-index="${index}">
                         <i class="fas fa-edit"></i>
                         </button>
-                        <button class='bg-amber-500 hover:bg-amber-600 text-white px-3 py-1 rounded delete-btn' data-index="${index}">
+                        <button class='bg-amber-500 hover:bg-amber-600 text-white px-3 py-1 text-[10px] rounded delete-btn' data-index="${index}">
                             <i class="fas fa-trash"></i>
                         </button>
                     </td>
@@ -247,7 +247,7 @@ document.addEventListener("DOMContentLoaded", () => {
             document.getElementById('content').classList.remove('hidden');
             document.getElementById('tableSection').classList.remove('hidden');
         }, 500); // Matches fade-out duration
-    }, 2000); // Loader stays visible for 2 seconds
+    }, 1000); // Loader stays visible for 2 seconds
 });
 
 
