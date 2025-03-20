@@ -23,11 +23,11 @@ document.addEventListener("DOMContentLoaded", () => {
             row.classList.add("border-b");
 
             row.innerHTML = `
-                <td class='border p-3'>${student.id}</td>
-                <td class='border p-3'>${student.name}</td>
-                <td class='border p-3'>${student.contact}</td>
-                <td class='border p-3'>${student.course}</td>
-                <td class='border p-3 space-x-2'>
+                <td class='p-3'>${student.id}</td>
+                <td class='p-3'>${student.name}</td>
+                <td class='p-3'>${student.contact}</td>
+                <td class='p-3'>${student.course}</td>
+                <td class='p-3 space-x-2'>
                     <button class='bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600 edit-btn' data-index="${index}">Edit</button>
                     <button class='bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600 delete-btn' data-index="${index}">Delete</button>
                 </td>
@@ -108,9 +108,24 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     });
 
+
     closeDeleteModalBtn.addEventListener("click", () => {
         deleteModal.classList.add("hidden");
     });
 
     renderTable();
 });
+document.addEventListener("DOMContentLoaded", function () {
+    const idInput = document.getElementById("id");
+    const contactInput = document.getElementById("contact");
+
+    function preventNonNumericInput(event) {
+        if (event.key === "e" || event.key === "E" || event.key === "+" || event.key === "-") {
+            event.preventDefault();
+        }
+    }
+
+    idInput.addEventListener("keydown", preventNonNumericInput);
+    contactInput.addEventListener("keydown", preventNonNumericInput);
+});
+
