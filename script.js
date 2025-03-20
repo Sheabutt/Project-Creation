@@ -1,13 +1,15 @@
 document.addEventListener("DOMContentLoaded", () => {
     // Authentication check
-    const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+    const currentUser = JSON.parse(localStorage.getItem("currentUser"));
     if (!currentUser) {
-        window.location.href = 'login.html';
+        window.location.href = "login.html";
         return;
     }
 
     const studentForm = document.getElementById("studentForm");
     const studentTable = document.getElementById("studentTableBody");
+    const numberOfStudents = document.getElementById("numberofstudents");
+
     const editModal = document.getElementById("editModal");
     const deleteModal = document.getElementById("deleteModal");
     const confirmDeleteBtn = document.getElementById("confirmDelete");
@@ -25,39 +27,45 @@ document.addEventListener("DOMContentLoaded", () => {
 
     function renderTable() {
         studentTable.innerHTML = "";
-        
+
         if (students.length === 0) {
             let emptyRow = document.createElement("tr");
             emptyRow.innerHTML = `<td colspan="5" class="p-4 text-gray-500">No students found. Add a student to get started.</td>`;
             studentTable.appendChild(emptyRow);
-            return;
+        } else {
+            students.forEach((student, index) => {
+                let row = document.createElement("tr");
+                row.classList.add("border-b", "hover:bg-gray-50");
+
+                row.innerHTML = `
+                    <td class='p-3'>${student.id}</td>
+                    <td class='p-3'>${student.name}</td>
+                    <td class='p-3'>${student.contact}</td>
+                    <td class='p-3'>${student.course}</td>
+                    <td class='p-3 space-x-2'>
+                        <button class='bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600 edit-btn' data-index="${index}">Edit</button>
+                        <button class='bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600 delete-btn' data-index="${index}">Delete</button>
+                    </td>
+                `;
+
+                studentTable.appendChild(row);
+            });
+
+            document.querySelectorAll(".edit-btn").forEach((button) => {
+                button.addEventListener("click", (e) => openEditModal(e.target.getAttribute("data-index")));
+            });
+
+            document.querySelectorAll(".delete-btn").forEach((button) => {
+                button.addEventListener("click", (e) => openDeleteModal(e.target.getAttribute("data-index")));
+            });
         }
-        
-        students.forEach((student, index) => {
-            let row = document.createElement("tr");
-            row.classList.add("border-b", "hover:bg-gray-50");
 
-            row.innerHTML = `
-                <td class='p-3'>${student.id}</td>
-                <td class='p-3'>${student.name}</td>
-                <td class='p-3'>${student.contact}</td>
-                <td class='p-3'>${student.course}</td>
-                <td class='p-3 space-x-2'>
-                    <button class='bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600 edit-btn' data-index="${index}">Edit</button>
-                    <button class='bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600 delete-btn' data-index="${index}">Delete</button>
-                </td>
-            `;
+        // **Update the student count**
+        updateStudentCount();
+    }
 
-            studentTable.appendChild(row);
-        });
-
-        document.querySelectorAll(".edit-btn").forEach(button => {
-            button.addEventListener("click", (e) => openEditModal(e.target.getAttribute("data-index")));
-        });
-
-        document.querySelectorAll(".delete-btn").forEach(button => {
-            button.addEventListener("click", (e) => openDeleteModal(e.target.getAttribute("data-index")));
-        });
+    function updateStudentCount() {
+        numberOfStudents.textContent = students.length;
     }
 
     studentForm.addEventListener("submit", (e) => {
@@ -68,7 +76,7 @@ document.addEventListener("DOMContentLoaded", () => {
         const course = document.getElementById("course").value;
 
         // Check if ID already exists when adding a new student
-        if (editIndex === -1 && students.some(student => student.id === id)) {
+        if (editIndex === -1 && students.some((student) => student.id === id)) {
             alert("A student with this ID already exists. Please use a different ID.");
             return;
         }
@@ -100,17 +108,15 @@ document.addEventListener("DOMContentLoaded", () => {
     updateStudentBtn.addEventListener("click", () => {
         if (editIndex !== -1) {
             const newId = document.getElementById("editId").value;
-            
+
             // Check if new ID conflicts with any other student except the current one
-            const idExists = students.some((student, idx) => 
-                student.id === newId && idx !== editIndex
-            );
-            
+            const idExists = students.some((student, idx) => student.id === newId && idx !== editIndex);
+
             if (idExists) {
                 alert("A student with this ID already exists. Please use a different ID.");
                 return;
             }
-            
+
             students[editIndex] = {
                 id: newId,
                 name: document.getElementById("editName").value,
@@ -165,4 +171,3 @@ document.addEventListener("DOMContentLoaded", function () {
     if (editIdInput) editIdInput.addEventListener("keydown", preventNonNumericInput);
     if (editContactInput) editContactInput.addEventListener("keydown", preventNonNumericInput);
 });
-

@@ -47,48 +47,6 @@
         .dropdown:hover .dropdown-menu {
             display: block;
         }
-        .card{
-            box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
-            transition: 0.3s;
-            width: 80%;
-            height: 200px;
-            margin: 20px auto;
-            border-radius: 10px;
-            padding: 20px;
-            background: url('8287076.jpg');
-            background-size: cover;
-            display: flex;
-            gap: 50px;
-            align-items: center;
-        }
-        .leftCard{
-            width: 80%;
-            font-size: 20px;
-            font-weight: 600;
-        }
-        .cardPhoto{
-            width: 200px;
-            height: auto;
-        }
-        .rightCard{
-            background-color: white;
-            width: 20%;
-            height: 100%;
-            border-radius: 10px;
-        }
-        h3{
-            background-color: #c9b1e4;
-            width: 50px;
-            text-align: center;
-            padding: 2px;
-            align-items: center;
-            
-        }
-        .box{
-            align-items: center;
-            text-align: center;
-            display: flex;
-        }
     </style>
 </head>
 <body class="bg-[#F1eaf3] font-[Poppins]" onload="checkAuthAndLoad()">
@@ -117,20 +75,7 @@
             </div>
         </div>
     </header>
-    <div class="card">
-        <img class="cardPhoto" src="photo.png">
-        <div class="leftCard">
-            <h2>Welcome to the ClassSync Dashboard – Your All-in-One Solution for Effortless Student Record Management! Easily add, view, edit, and organize student information with a seamless and user-friendly experience.</h2>
-        </div>
-        <div class="rightCard p-3">
-            <h3 class="bg-orange-200 text-orange-500 w-[60px] px-3 rounded-full text-sm">2025</h3>
-            <h2 class="font-bold mt-3">Total Students</h2>
-            <h4 class="text-gray-500 text-[10px]">These are the number of students for this year.</h4>
-            <div class="box">
-                <h3 class="text-[30px] rounded" id="numberofstudents"></h3>
-            </div>
-        </div>
-    </div>
+    
     <div class="flex">
         <button onclick="window.location.href='index.html'" 
         class="fixed bottom-5 right-5 bg-blue-500 text-white p-3 rounded-full shadow-md hover:bg-blue-600 transition">
@@ -148,8 +93,8 @@
         </form>
     </div>
     
-    <div class="max-w-4xl w-[70%] m-10 mx-auto mt-8 bg-white px-6 shadow-lg rounded-lg hidden max-h-[400px] overflow-y-auto overflow-x-hidden" id="tableSection">
-        <h2 class="text-xl font-semibold mb-4 text-gray-700 mt-8">Student Records</h2>
+    <div class="max-w-4xl w-[70%] m-10 mx-auto mt-8 bg-white px-6 shadow-lg rounded-lg hidden max-h-[600px] overflow-y-auto overflow-x-hidden" id="tableSection">
+        <h2 class="text-xl font-semibold mb-4 text-gray-700">Student Records</h2>
         <table class="w-full border-collapse text-center shadow-sm">
             <thead>
                 <tr class="bg-[#4A2574] text-white sticky top-0 z-30">
@@ -167,7 +112,7 @@
 
 
     <!-- Edit Student Modal -->
-<div id="editModal" class="fixed inset-0 bg-gray-900 bg-opacity-50 flex items-center justify-center z-40 hidden">
+<div id="editModal" class="fixed inset-0 bg-gray-900 bg-opacity-50 flex items-center justify-center hidden">
     <div class="bg-white p-6 rounded shadow-lg w-96">
         <h2 class="text-lg font-bold mb-4">Edit Student</h2>
         <input type="number" id="editId" class="w-full p-2 border rounded mb-2" placeholder="Student ID">
@@ -182,7 +127,7 @@
 </div>
 
 <!-- Delete Confirmation Modal -->
-<div id="deleteModal" class="fixed inset-0 bg-gray-900 bg-opacity-50 flex items-center justify-center z-40 hidden">
+<div id="deleteModal" class="fixed inset-0 bg-gray-900 bg-opacity-50 flex items-center justify-center hidden">
     <div class="bg-white p-6 rounded shadow-lg w-96">
         <h2 class="text-lg font-bold mb-4 text-center">Are you sure you want to delete?</h2>
         <div class="flex justify-center space-x-2">
