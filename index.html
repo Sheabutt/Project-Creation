@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ClassSync - Student Information System</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <link rel="icon" type="image/png" href="student_14820952.png">
 </head>
 <style>
     *{
@@ -72,6 +74,10 @@
         float: left;
         margin: 0 10px 0 20px;
     }
+    button:hover{
+        background-color: chocolate;
+        transform: scale(1.1);
+    }
     #loader {
             position: fixed;
             top: 0;
@@ -97,9 +103,10 @@
             <div class="left">
                 <h1>Welcome to <span class="class">Class</span><span class="sync">Sync</span>!</h1>
                 <p>The system streamlines student record management, making it easy to add, view, edit, and delete student information efficiently.</p>
-                <button onclick="window.location.href='login.html'">
-                    Get Started
+                <button onclick="window.location.href = 'login.html'">
+                    <i class="fas fa-arrow-right"></i> Get Started
                 </button>
+                
             </div>
             <div class="right">
                 <img src="photo.png">
