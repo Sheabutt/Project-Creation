@@ -43,8 +43,8 @@ document.addEventListener("DOMContentLoaded", () => {
                     <td class='p-3'>${student.contact}</td>
                     <td class='p-3'>${student.course}</td>
                     <td class='p-3 space-x-2'>
-                        <button class='bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600 edit-btn' data-index="${index}">Edit</button>
-                        <button class='bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600 delete-btn' data-index="${index}">Delete</button>
+                        <button class='bg-teal-500 hover:bg-teal-600 text-white px-3 py-1 rounded edit-btn' data-index="${index}">Edit</button>
+                        <button class='bg-amber-500 hover:bg-amber-600 text-white px-3 py-1 rounded  delete-btn' data-index="${index}">Delete</button>
                     </td>
                 `;
 
@@ -107,27 +107,34 @@ document.addEventListener("DOMContentLoaded", () => {
 
     updateStudentBtn.addEventListener("click", () => {
         if (editIndex !== -1) {
-            const newId = document.getElementById("editId").value;
-
-            // Check if new ID conflicts with any other student except the current one
-            const idExists = students.some((student, idx) => student.id === newId && idx !== editIndex);
-
-            if (idExists) {
-                alert("A student with this ID already exists. Please use a different ID.");
+            const newId = document.getElementById("editId").value.trim();
+            const newName = document.getElementById("editName").value.trim();
+            const newContact = document.getElementById("editContact").value.trim();
+            const newCourse = document.getElementById("editCourse").value.trim();
+    
+            if (!newId || !newName || !newContact || !newCourse) {
+                alert("All fields are required!");
                 return;
             }
-
-            students[editIndex] = {
-                id: newId,
-                name: document.getElementById("editName").value,
-                contact: document.getElementById("editContact").value,
-                course: document.getElementById("editCourse").value,
-            };
+    
+            // Update the student information (without checking for duplicate ID)
+            students[editIndex].id = newId;
+            students[editIndex].name = newName;
+            students[editIndex].contact = newContact;
+            students[editIndex].course = newCourse;
+    
+            // Save and re-render
             saveToLocalStorage();
             renderTable();
+    
+            // Close modal
             editModal.classList.add("hidden");
+    
+            // Reset editIndex
+            editIndex = -1;
         }
     });
+    
 
     closeEditModalBtn.addEventListener("click", () => {
         editModal.classList.add("hidden");
@@ -170,4 +177,94 @@ document.addEventListener("DOMContentLoaded", function () {
     if (contactInput) contactInput.addEventListener("keydown", preventNonNumericInput);
     if (editIdInput) editIdInput.addEventListener("keydown", preventNonNumericInput);
     if (editContactInput) editContactInput.addEventListener("keydown", preventNonNumericInput);
+});
+document.addEventListener("DOMContentLoaded", function () {
+    const searchInput = document.getElementById("searchInput");
+
+    if (!searchInput) {
+        console.error("Search input not found!");
+        return;
+    }
+
+    searchInput.addEventListener("keyup", function () {
+        let searchValue = this.value.toLowerCase();
+        let studentRows = document.querySelectorAll("#studentTableBody tr");
+
+        studentRows.forEach(row => {
+            let studentName = row.children[1]?.textContent.toLowerCase(); // Check if element exists
+            if (studentName && studentName.includes(searchValue)) {
+                row.style.display = "";
+            } else {
+                row.style.display = "none";
+            }
+        });
+    });
+});
+
+function checkAuthAndLoad() {
+    const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+    if (!currentUser) {
+        // Redirect to login if not authenticated
+        window.location.href = 'login.html';
+        return;
+    }
+
+    // If authenticated, display user info and continue loading
+    document.getElementById('userDisplay').textContent = currentUser.fullName.split(' ')[0]; // Show first name
+    hideLoader();
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+    let loader = document.getElementById('loader');
+    let progressBar = document.getElementById('progressBar');
+
+    // Reset loader visibility
+    loader.style.display = 'flex'; // Ensure it's shown
+    loader.style.opacity = '1';
+
+    // Simulate progress bar animation
+    let progress = 0;
+    let interval = setInterval(() => {
+        progress += 10;
+        progressBar.style.width = progress + "%";
+
+        if (progress >= 100) {
+            clearInterval(interval);
+        }
+    }, 200); // Adjust timing for smooth effect
+
+    // Keep loader visible for about 2 seconds before hiding
+    setTimeout(() => {
+        loader.style.transition = 'opacity 0.5s ease';
+        loader.style.opacity = '0'; // Fade out effect
+
+        setTimeout(() => {
+            loader.style.display = 'none'; // Fully hide after fading
+            document.getElementById('content').classList.remove('hidden');
+            document.getElementById('tableSection').classList.remove('hidden');
+        }, 500); // Matches fade-out duration
+    }, 2000); // Loader stays visible for 2 seconds
+});
+
+
+
+
+// Profile Modal Events
+document.getElementById('profileLink').addEventListener('click', function(e) {
+    e.preventDefault();
+    const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+    document.getElementById('profileName').textContent = currentUser.fullName;
+    document.getElementById('profileEmail').textContent = currentUser.email;
+    document.getElementById('profileModal').classList.remove('hidden');
+});
+
+document.getElementById('closeProfileModal').addEventListener('click', function() {
+    document.getElementById('profileModal').classList.add('hidden');
+});
+
+// Logout Event
+document.getElementById('logoutBtn').addEventListener('click', function(e) {
+    e.preventDefault();
+    localStorage.removeItem('currentUser');
+    window.location.href = 'login.html';
 });

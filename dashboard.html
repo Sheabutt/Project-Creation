@@ -92,13 +92,10 @@
     </style>
 </head>
 <body class="bg-[#F1eaf3] font-[Poppins]" onload="checkAuthAndLoad()">
-    <div id="loader">
-        <h1 class="text-2xl font-bold mb-2">Student Information System</h1>
-        <p class="text-lg font-semibold text-gray-700 mb-3">Loading...</p>
-        <div class="progress-container">
-            <div class="progress-bar" id="progressBar"></div>
-        </div>
+    <div id="loader" class="flex flex-col items-center justify-center min-h-screen bg-white">
+        <img src="loader.gif" alt="Loading..." class="w-[150px] h-[150px]"> <!-- Replace with your actual GIF filename -->
     </div>
+    
 
     <header class="bg-[#4A2574] font-[Poppins] text-white p-6 shadow-md text-left sticky top-0 z-50 flex justify-between items-center" >
         <div class="flex items-center">
@@ -125,19 +122,15 @@
         <div class="rightCard p-3">
             <h3 class="bg-orange-200 text-orange-500 w-[60px] px-3 rounded-full text-sm">2025</h3>
             <h2 class="font-bold mt-3">Total Students</h2>
-            <h4 class="text-gray-500 text-[10px]">These are the number of students for this year.</h4>
+            <h4 class="text-gray-500 text-[10px]">This is the number of students for this year.</h4>
             <div class="box">
                 <h3 class="text-[30px] rounded" id="numberofstudents"></h3>
             </div>
         </div>
     </div>
     <div class="flex">
-        <button onclick="window.location.href='index.html'" 
-        class="fixed bottom-5 right-5 bg-blue-500 text-white p-3 rounded-full shadow-md hover:bg-blue-600 transition">
-        <i class="fa-solid fa-house text-2xl"></i>
-    </button>
-    
-    <div class="max-w-4xl max-h-[260px] mt-8 m-10 bg-white p-6 shadow-lg rounded-lg hidden" id="content">
+   
+    <div class="max-w-4xl max-h-[260px] mt-8 m-10 mx-auto bg-white p-6 shadow-lg rounded-lg hidden" id="content">
         <h2 class="text-xl font-semibold mb-4 text-gray-700">Add New Student</h2>
         <form id="studentForm" class="grid grid-cols-2 gap-4">
             <input type="number" id="id" placeholder="Student ID" required class="w-full p-3 border rounded shadow-sm" required>
@@ -148,8 +141,12 @@
         </form>
     </div>
     
-    <div class="max-w-4xl w-[70%] m-10 mx-auto mt-8 bg-white px-6 shadow-lg rounded-lg hidden max-h-[400px] overflow-y-auto overflow-x-hidden" id="tableSection">
-        <h2 class="text-xl font-semibold mb-4 text-gray-700 mt-8">Student Records</h2>
+    <div class="max-w-4xl h-[400px] w-[70%] m-10 mx-auto mt-8 bg-white px-6 shadow-lg rounded-lg hidden max-h-[400px] overflow-y-auto overflow-x-hidden" id="tableSection">
+        <div class="search flex items-center justify-between mt-8 mb-5">
+            <h2 class="text-xl font-semibold text-gray-700">Student Records</h2>
+            <input type="text" id="searchInput" placeholder="Search students..." class="border p-2 rounded-lg text-gray-700 w-64">
+        </div>
+        
         <table class="w-full border-collapse text-center shadow-sm">
             <thead>
                 <tr class="bg-[#4A2574] text-white sticky top-0 z-30">
@@ -167,93 +164,56 @@
 
 
     <!-- Edit Student Modal -->
-<div id="editModal" class="fixed inset-0 bg-gray-900 bg-opacity-50 flex items-center justify-center z-40 hidden">
-    <div class="bg-white p-6 rounded shadow-lg w-96">
-        <h2 class="text-lg font-bold mb-4">Edit Student</h2>
-        <input type="number" id="editId" class="w-full p-2 border rounded mb-2" placeholder="Student ID">
-        <input type="text" id="editName" class="w-full p-2 border rounded mb-2" placeholder="Name">
-        <input type="number" id="editContact" class="w-full p-2 border rounded mb-2" placeholder="Contact Info" pattern="[0-9]*">
-        <input type="text" id="editCourse" class="w-full p-2 border rounded mb-2" placeholder="Course">
-        <div class="flex justify-end space-x-2">
-            <button id="updateStudent" class="bg-blue-500 text-white px-3 py-1 rounded">Save</button>
-            <button id="closeEditModal" class="bg-gray-400 text-white px-3 py-1 rounded">Cancel</button>
+    <div id="editModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
+        <div class="bg-white p-6 rounded-2xl shadow-xl w-96 border border-purple-300">
+            <h2 class="text-xl font-bold text-purple-700 mb-4">Edit Student</h2>
+            <input type="number" id="editId" class="w-full p-3 border border-purple-300 rounded-lg mb-3 focus:ring-2 focus:ring-purple-500 outline-none" placeholder="Student ID">
+            <input type="text" id="editName" class="w-full p-3 border border-purple-300 rounded-lg mb-3 focus:ring-2 focus:ring-purple-500 outline-none" placeholder="Name">
+            <input type="number" id="editContact" class="w-full p-3 border border-purple-300 rounded-lg mb-3 focus:ring-2 focus:ring-purple-500 outline-none" placeholder="Contact Info" pattern="[0-9]*">
+            <input type="text" id="editCourse" class="w-full p-3 border border-purple-300 rounded-lg mb-4 focus:ring-2 focus:ring-purple-500 outline-none" placeholder="Course">
+            
+            <div class="flex justify-end space-x-3">
+                <button id="updateStudent" class="bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded-lg shadow-md transition-all">Save</button>
+                <button id="closeEditModal" class="bg-gray-300 hover:bg-gray-400 text-gray-700 px-4 py-2 rounded-lg shadow-md transition-all">Cancel</button>
+            </div>
         </div>
     </div>
-</div>
+    
 
 <!-- Delete Confirmation Modal -->
-<div id="deleteModal" class="fixed inset-0 bg-gray-900 bg-opacity-50 flex items-center justify-center z-40 hidden">
-    <div class="bg-white p-6 rounded shadow-lg w-96">
-        <h2 class="text-lg font-bold mb-4 text-center">Are you sure you want to delete?</h2>
-        <div class="flex justify-center space-x-2">
-            <button id="confirmDelete" class="bg-red-500 text-white px-4 py-2 rounded">Yes</button>
-            <button id="closeDeleteModal" class="bg-gray-400 text-white px-4 py-2 rounded">No</button>
+<div id="deleteModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
+    <div class="bg-white p-6 rounded-2xl shadow-xl w-96 border border-purple-300">
+        <h2 class="text-xl font-bold text-gray-800 text-center mb-4">Are you sure you want to delete?</h2>
+        <p class="text-gray-600 text-center mb-6">This action cannot be undone.</p>
+        <div class="flex justify-center space-x-4">
+            <button id="confirmDelete" class="bg-red-600 hover:bg-red-700 text-white px-5 py-2 rounded-lg shadow-md transition-all">Yes, Delete</button>
+            <button id="closeDeleteModal" class="bg-gray-300 hover:bg-gray-400 text-gray-700 px-5 py-2 rounded-lg shadow-md transition-all">Cancel</button>
         </div>
     </div>
 </div>
+
 
 <!-- Profile Modal -->
-<div id="profileModal" class="fixed inset-0 bg-gray-900 bg-opacity-50 flex items-center justify-center hidden">
-    <div class="bg-white p-6 rounded shadow-lg w-96">
-        <h2 class="text-lg font-bold mb-4">User Profile</h2>
+<div id="profileModal" class="fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-50 hidden">
+    <div class="bg-white p-6 rounded-2xl shadow-xl w-96 border border-gray-200">
+        <h2 class="text-xl font-semibold text-purple-700 mb-4 text-center">User Profile</h2>
         <div class="mb-4">
-            <label class="block text-gray-700 mb-1">Full Name</label>
-            <p id="profileName" class="p-2 bg-gray-100 rounded"></p>
+            <label class="block text-gray-600 text-sm font-medium mb-1">Full Name</label>
+            <p id="profileName" class="p-3 bg-gray-50 border border-gray-200 rounded-lg text-gray-800"></p>
         </div>
         <div class="mb-4">
-            <label class="block text-gray-700 mb-1">Email</label>
-            <p id="profileEmail" class="p-2 bg-gray-100 rounded"></p>
+            <label class="block text-gray-600 text-sm font-medium mb-1">Email</label>
+            <p id="profileEmail" class="p-3 bg-gray-50 border border-gray-200 rounded-lg text-gray-800"></p>
         </div>
         <div class="flex justify-end">
-            <button id="closeProfileModal" class="bg-gray-400 text-white px-3 py-1 rounded">Close</button>
+            <button id="closeProfileModal" class="bg-orange-500 hover:bg-orange-600 text-white px-4 py-2 rounded-lg transition-all">
+                Close
+            </button>
         </div>
     </div>
 </div>
 
-    <script>
-        function checkAuthAndLoad() {
-            const currentUser = JSON.parse(localStorage.getItem('currentUser'));
-            if (!currentUser) {
-                // Redirect to login if not authenticated
-                window.location.href = 'login.html';
-                return;
-            }
 
-            // If authenticated, display user info and continue loading
-            document.getElementById('userDisplay').textContent = currentUser.fullName.split(' ')[0]; // Show first name
-            hideLoader();
-        }
-
-        function hideLoader() {
-            let progressBar = document.getElementById('progressBar');
-            progressBar.style.width = '100%';
-            setTimeout(() => {
-                document.getElementById('loader').style.display = 'none';
-                document.getElementById('content').classList.remove('hidden');
-                document.getElementById('tableSection').classList.remove('hidden');
-            }, 2000);
-        }
-
-        // Profile Modal Events
-        document.getElementById('profileLink').addEventListener('click', function(e) {
-            e.preventDefault();
-            const currentUser = JSON.parse(localStorage.getItem('currentUser'));
-            document.getElementById('profileName').textContent = currentUser.fullName;
-            document.getElementById('profileEmail').textContent = currentUser.email;
-            document.getElementById('profileModal').classList.remove('hidden');
-        });
-
-        document.getElementById('closeProfileModal').addEventListener('click', function() {
-            document.getElementById('profileModal').classList.add('hidden');
-        });
-
-        // Logout Event
-        document.getElementById('logoutBtn').addEventListener('click', function(e) {
-            e.preventDefault();
-            localStorage.removeItem('currentUser');
-            window.location.href = 'login.html';
-        });
-    </script>
     <script src="script.js"></script>
 </body>
 </html>

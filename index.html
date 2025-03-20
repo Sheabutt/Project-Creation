@@ -85,28 +85,12 @@
             flex-direction: column;
             z-index: 1000;
         }
-        .progress-container {
-            width: 50%;
-            background: #e0e0e0;
-            border-radius: 20px;
-            overflow: hidden;
-        }
-        .progress-bar {
-            height: 10px;
-            width: 0;
-            background: #4A2574;
-            transition: width 2s ease-in-out;
-        }
 </style>
 <body>
     <body onload="hideLoader()">
         <!-- Loader -->
-        <div id="loader">
-            <h1 class="text-2xl font-bold mb-2">Student Information System</h1>
-            <p class="text-lg font-semibold text-gray-700 mb-3">Loading...</p>
-            <div class="progress-container">
-                <div class="progress-bar" id="progressBar"></div>
-            </div>
+        <div id="loader" class="flex flex-col items-center justify-center min-h-screen bg-white">
+            <img src="loader.gif" alt="Loading..." class="w-[10px] h-[10px]"> <!-- Replace with your actual GIF filename -->
         </div>
     <div class="container">
         <div class = "content">
@@ -124,15 +108,38 @@
         </div>
     </div>
     <script>
-        function hideLoader() {
-            let progressBar = document.getElementById('progressBar');
-            progressBar.style.width = '100%';
-            setTimeout(() => {
-                document.getElementById('loader').style.display = 'none';
-                document.getElementById('content').classList.remove('hidden');
-                document.getElementById('tableSection').classList.remove('hidden');
-            }, 2000);
+       document.addEventListener("DOMContentLoaded", () => {
+    let loader = document.getElementById('loader');
+    let progressBar = document.getElementById('progressBar');
+
+    // Reset loader visibility
+    loader.style.display = 'flex'; // Ensure it's shown
+    loader.style.opacity = '1';
+
+    // Simulate progress bar animation
+    let progress = 0;
+    let interval = setInterval(() => {
+        progress += 10;
+        progressBar.style.width = progress + "%";
+
+        if (progress >= 100) {
+            clearInterval(interval);
         }
+    }, 200); // Adjust timing for smooth effect
+
+    // Keep loader visible for about 2 seconds before hiding
+    setTimeout(() => {
+        loader.style.transition = 'opacity 0.5s ease';
+        loader.style.opacity = '0'; // Fade out effect
+
+        setTimeout(() => {
+            loader.style.display = 'none'; // Fully hide after fading
+            document.getElementById('content').classList.remove('hidden');
+            document.getElementById('tableSection').classList.remove('hidden');
+        }, 500); // Matches fade-out duration
+    }, 2000); // Loader stays visible for 2 seconds
+});
+
     </script>
 </body>
 </html>
