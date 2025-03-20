@@ -1,4 +1,11 @@
 document.addEventListener("DOMContentLoaded", () => {
+    // Authentication check
+    const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+    if (!currentUser) {
+        window.location.href = 'login.html';
+        return;
+    }
+
     const studentForm = document.getElementById("studentForm");
     const studentTable = document.getElementById("studentTableBody");
     const editModal = document.getElementById("editModal");
@@ -18,9 +25,17 @@ document.addEventListener("DOMContentLoaded", () => {
 
     function renderTable() {
         studentTable.innerHTML = "";
+        
+        if (students.length === 0) {
+            let emptyRow = document.createElement("tr");
+            emptyRow.innerHTML = `<td colspan="5" class="p-4 text-gray-500">No students found. Add a student to get started.</td>`;
+            studentTable.appendChild(emptyRow);
+            return;
+        }
+        
         students.forEach((student, index) => {
             let row = document.createElement("tr");
-            row.classList.add("border-b");
+            row.classList.add("border-b", "hover:bg-gray-50");
 
             row.innerHTML = `
                 <td class='p-3'>${student.id}</td>
@@ -52,6 +67,12 @@ document.addEventListener("DOMContentLoaded", () => {
         const contact = document.getElementById("contact").value;
         const course = document.getElementById("course").value;
 
+        // Check if ID already exists when adding a new student
+        if (editIndex === -1 && students.some(student => student.id === id)) {
+            alert("A student with this ID already exists. Please use a different ID.");
+            return;
+        }
+
         const student = { id, name, contact, course };
 
         if (editIndex === -1) {
@@ -78,8 +99,20 @@ document.addEventListener("DOMContentLoaded", () => {
 
     updateStudentBtn.addEventListener("click", () => {
         if (editIndex !== -1) {
+            const newId = document.getElementById("editId").value;
+            
+            // Check if new ID conflicts with any other student except the current one
+            const idExists = students.some((student, idx) => 
+                student.id === newId && idx !== editIndex
+            );
+            
+            if (idExists) {
+                alert("A student with this ID already exists. Please use a different ID.");
+                return;
+            }
+            
             students[editIndex] = {
-                id: document.getElementById("editId").value,
+                id: newId,
                 name: document.getElementById("editName").value,
                 contact: document.getElementById("editContact").value,
                 course: document.getElementById("editCourse").value,
@@ -108,16 +141,18 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     });
 
-
     closeDeleteModalBtn.addEventListener("click", () => {
         deleteModal.classList.add("hidden");
     });
 
     renderTable();
 });
+
 document.addEventListener("DOMContentLoaded", function () {
     const idInput = document.getElementById("id");
     const contactInput = document.getElementById("contact");
+    const editIdInput = document.getElementById("editId");
+    const editContactInput = document.getElementById("editContact");
 
     function preventNonNumericInput(event) {
         if (event.key === "e" || event.key === "E" || event.key === "+" || event.key === "-") {
@@ -125,7 +160,9 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     }
 
-    idInput.addEventListener("keydown", preventNonNumericInput);
-    contactInput.addEventListener("keydown", preventNonNumericInput);
+    if (idInput) idInput.addEventListener("keydown", preventNonNumericInput);
+    if (contactInput) contactInput.addEventListener("keydown", preventNonNumericInput);
+    if (editIdInput) editIdInput.addEventListener("keydown", preventNonNumericInput);
+    if (editContactInput) editContactInput.addEventListener("keydown", preventNonNumericInput);
 });
 
