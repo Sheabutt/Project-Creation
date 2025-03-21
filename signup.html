@@ -107,24 +107,20 @@
             const confirmPassword = document.getElementById('confirmPassword').value;
             const errorDiv = document.getElementById('signupError');
             
-            // Validate passwords match
             if (password !== confirmPassword) {
                 errorDiv.textContent = 'Passwords do not match';
                 errorDiv.classList.remove('hidden');
                 return;
             }
             
-            // Store user in localStorage
             const users = JSON.parse(localStorage.getItem('users')) || [];
             
-            // Check if email already exists
             if (users.some(user => user.email === email)) {
                 errorDiv.textContent = 'Email already registered';
                 errorDiv.classList.remove('hidden');
                 return;
             }
             
-            // Add new user
             const newUser = { 
                 id: Date.now().toString(),
                 fullName, 
@@ -135,7 +131,6 @@
             users.push(newUser);
             localStorage.setItem('users', JSON.stringify(users));
             
-            // Redirect to login
             alert('Account created successfully! Please login.');
             window.location.href = 'login.html';
         });

@@ -64,7 +64,6 @@ document.addEventListener("DOMContentLoaded", () => {
             });
         }
 
-        // **Update the student count**
         updateStudentCount();
     }
 
@@ -79,7 +78,7 @@ document.addEventListener("DOMContentLoaded", () => {
         const contact = document.getElementById("contact").value;
         const course = document.getElementById("course").value;
 
-        // Check if ID already exists when adding a new student
+
         if (editIndex === -1 && students.some((student) => student.id === id)) {
             alert("A student with this ID already exists. Please use a different ID.");
             return;
@@ -121,20 +120,16 @@ document.addEventListener("DOMContentLoaded", () => {
                 return;
             }
     
-            // Update the student information (without checking for duplicate ID)
             students[editIndex].id = newId;
             students[editIndex].name = newName;
             students[editIndex].contact = newContact;
             students[editIndex].course = newCourse;
     
-            // Save and re-render
             saveToLocalStorage();
             renderTable();
     
-            // Close modal
             editModal.classList.add("hidden");
     
-            // Reset editIndex
             editIndex = -1;
         }
     });
@@ -208,12 +203,10 @@ document.addEventListener("DOMContentLoaded", function () {
 function checkAuthAndLoad() {
     const currentUser = JSON.parse(localStorage.getItem('currentUser'));
     if (!currentUser) {
-        // Redirect to login if not authenticated
         window.location.href = 'login.html';
         return;
     }
 
-    // If authenticated, display user info and continue loading
     document.getElementById('userDisplay').textContent = currentUser.fullName.split(' ')[0]; // Show first name
     hideLoader();
 }
@@ -222,11 +215,9 @@ document.addEventListener("DOMContentLoaded", () => {
     let loader = document.getElementById('loader');
     let progressBar = document.getElementById('progressBar');
 
-    // Reset loader visibility
     loader.style.display = 'flex'; // Ensure it's shown
     loader.style.opacity = '1';
 
-    // Simulate progress bar animation
     let progress = 0;
     let interval = setInterval(() => {
         progress += 10;
@@ -235,19 +226,18 @@ document.addEventListener("DOMContentLoaded", () => {
         if (progress >= 100) {
             clearInterval(interval);
         }
-    }, 200); // Adjust timing for smooth effect
+    }, 200); 
 
-    // Keep loader visible for about 2 seconds before hiding
     setTimeout(() => {
         loader.style.transition = 'opacity 0.5s ease';
-        loader.style.opacity = '0'; // Fade out effect
+        loader.style.opacity = '0'; 
 
         setTimeout(() => {
-            loader.style.display = 'none'; // Fully hide after fading
+            loader.style.display = 'none'; 
             document.getElementById('content').classList.remove('hidden');
             document.getElementById('tableSection').classList.remove('hidden');
-        }, 500); // Matches fade-out duration
-    }, 1000); // Loader stays visible for 2 seconds
+        }, 500);
+    }, 1000); 
 });
 
 
