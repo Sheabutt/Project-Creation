@@ -243,7 +243,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
 
-// Profile Modal Events
 document.getElementById('profileLink').addEventListener('click', function(e) {
     e.preventDefault();
     const currentUser = JSON.parse(localStorage.getItem('currentUser'));
@@ -256,7 +255,6 @@ document.getElementById('closeProfileModal').addEventListener('click', function(
     document.getElementById('profileModal').classList.add('hidden');
 });
 
-// Logout Event
 document.getElementById('logoutBtn').addEventListener('click', function(e) {
     e.preventDefault();
     localStorage.removeItem('currentUser');
